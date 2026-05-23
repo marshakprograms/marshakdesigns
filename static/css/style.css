@@ -1,4 +1,4 @@
-<style>
+
 :root {
   --navy: #021B33;
   --navy-mid: #042C53;
@@ -419,6 +419,7 @@ nav {
   display: flex; align-items: center; justify-content: center; gap: 8px;
 }
 .form-submit:hover { background: #2778c4; transform: translateY(-2px); }
+
 .form-success {
   display: none; text-align: center; padding: 2rem;
   background: rgba(29,158,117,0.1);
@@ -429,17 +430,19 @@ nav {
 
 /* ── FOOTER ── */
 footer {
-  background: var(--navy);
-  border-top: 1px solid rgba(55,138,221,0.1);
-  padding: 1.75rem 3rem;
-  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+  background: var(--blue);
+  padding: 1rem 3rem;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1rem;
+  width: 100%;
 }
 .footer-logo { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; color: var(--white); }
-.footer-logo span { color: var(--blue-bright); }
+.footer-logo span { color: var(--blue-ice); }
 .footer-links { display: flex; gap: 24px; }
-.footer-links a { font-size: 13px; color: var(--blue-pale); text-decoration: none; transition: color 0.2s; }
+.footer-links a { font-size: 13px; color: var(--blue-ice); text-decoration: none; transition: color 0.2s; }
 .footer-links a:hover { color: var(--white); }
-.footer-copy { font-size: 12px; color: rgba(133,183,235,0.5); }
+.footer-copy { font-size: 12px; color: rgba(255,255,255,0.6); 
+}
 
 /* ── SECTION DIVIDER ── */
 .section-divider {
@@ -606,4 +609,3 @@ footer {
 @media (max-width: 768px) {
   .globe-scene { width: 340px; height: 340px; }
 }
-</style>

@@ -238,47 +238,47 @@
         </div>
       </div>
     </div>
-    <div class="reveal reveal-delay-2">
-      <form class="contact-form" id="contactForm" onsubmit="handleSubmit(event)">
-        <div class="form-row">
-          <div class="form-group">
-            <label>Your name</label>
-            <input type="text" placeholder="Jane Smith" required>
-          </div>
-          <div class="form-group">
-            <label>Email address</label>
-            <input type="email" placeholder="jane@yourbiz.com" required>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Business name</label>
-          <input type="text" placeholder="Your business or startup">
-        </div>
-        <div class="form-group">
-          <label>What do you need?</label>
-          <select>
-            <option value="">Select a service...</option>
-            <option>Custom web application</option>
-            <option>Dashboard or admin portal</option>
-            <option>Workflow automation</option>
-            <option>Client or member platform</option>
-            <option>Something else</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Tell me about your project</label>
-          <textarea placeholder="What problem are you trying to solve? What does success look like for you?"></textarea>
-        </div>
-        <button type="submit" class="form-submit">
-          Send message
-          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 7.5h11M8.5 3l4.5 4.5L8.5 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <div class="form-success" id="formSuccess">
-          ✓ Message sent! I'll be in touch within 24 hours.
-        </div>
-      </form>
+<div class="reveal reveal-delay-2">
+  <form class="contact-form" id="contactForm" onsubmit="handleSubmit(event)">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Your name</label>
+        <input type="text" name="name" placeholder="Jane Smith" required>
+      </div>
+      <div class="form-group">
+        <label>Email address</label>
+        <input type="email" name="email" placeholder="jane@yourbiz.com" required>
+      </div>
     </div>
+    <div class="form-group">
+      <label>Business name</label>
+      <input type="text" name="business" placeholder="Your business or startup">
+    </div>
+    <div class="form-group">
+      <label>What do you need?</label>
+      <select name="service">
+        <option value="">Select a service...</option>
+        <option>Custom web application</option>
+        <option>Dashboard or admin portal</option>
+        <option>Workflow automation</option>
+        <option>Client or member platform</option>
+        <option>Something else</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Tell me about your project</label>
+      <textarea name="message" placeholder="What problem are you trying to solve? What does success look like for you?"></textarea>
+    </div>
+    <button type="submit" class="form-submit">
+      Send message
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 7.5h11M8.5 3l4.5 4.5L8.5 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </form>
+
+  <div id="formSuccess" style="display:none; text-align:center; padding:2rem; color:#5DCAA5; font-size:18px; font-weight:600; font-family:'Syne',sans-serif;">
+    ✓ Message sent! I'll be in touch within 24 hours.
   </div>
+
 </section>
 
 <!-- FOOTER -->

@@ -363,12 +363,13 @@ function handleSubmit(e) {
   btn.textContent = 'Sending...';
   btn.disabled = true;
 
+  const form = e.target;
   const data = {
-    name:     document.querySelector('input[type="text"]').value,
-    email:    document.querySelector('input[type="email"]').value,
-    business: document.querySelectorAll('input[type="text"]')[1]?.value,
-    service:  document.querySelector('select').value,
-    message:  document.querySelector('textarea').value,
+    name:     form.querySelector('[name="name"]').value,
+    email:    form.querySelector('[name="email"]').value,
+    business: form.querySelector('[name="business"]').value,
+    service:  form.querySelector('[name="service"]').value,
+    message:  form.querySelector('[name="message"]').value,
   };
 
   fetch('/contact', {
@@ -376,10 +377,10 @@ function handleSubmit(e) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   })
-  .then(res => res.json())
   .then(() => {
-    e.target.style.display = 'none';
-    document.getElementById('formSuccess').style.display = 'block';
+    form.style.display = 'none';
+    const s = document.getElementById('formSuccess');
+    s.style.display = 'flex';
   })
   .catch(() => {
     btn.textContent = 'Send message →';
