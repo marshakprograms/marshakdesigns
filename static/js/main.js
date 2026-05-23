@@ -362,9 +362,29 @@ function handleSubmit(e) {
   const btn = e.target.querySelector('.form-submit');
   btn.textContent = 'Sending...';
   btn.disabled = true;
-  setTimeout(() => {
+
+  const data = {
+    name:     document.querySelector('input[type="text"]').value,
+    email:    document.querySelector('input[type="email"]').value,
+    business: document.querySelectorAll('input[type="text"]')[1]?.value,
+    service:  document.querySelector('select').value,
+    message:  document.querySelector('textarea').value,
+  };
+
+  fetch('/contact', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+  .then(res => res.json())
+  .then(() => {
     e.target.style.display = 'none';
     document.getElementById('formSuccess').style.display = 'block';
-  }, 1200);
+  })
+  .catch(() => {
+    btn.textContent = 'Send message →';
+    btn.disabled = false;
+    alert('Something went wrong. Please try again.');
+  });
 }
 
