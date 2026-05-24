@@ -110,6 +110,11 @@ def admin_contacts():
     contacts = Contact.query.order_by(Contact.date_submitted.desc()).all()
     return render_template('admin.html', contacts=contacts)
 
+@app.route('/robots.txt')
+def robots():
+    from flask import send_from_directory
+    return send_from_directory('static', 'robots.txt')
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
@@ -122,3 +127,4 @@ if __name__ == '__main__':
             db.session.commit()
             print('Default admin created — username: marsha, password: changeme123')
     app.run(debug=True)
+    
