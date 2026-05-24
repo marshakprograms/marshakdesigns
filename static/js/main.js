@@ -12,6 +12,7 @@
   ];
 
   const canvas  = document.getElementById('globeCanvas');
+  if (!canvas) return;
   const ctx     = canvas.getContext('2d');
   const gcIcon  = document.getElementById('gcIcon');
   const gcTitle = document.getElementById('gcTitle');
@@ -54,12 +55,13 @@
     if (idx === highlightIdx) return;
     highlightIdx = idx;
     const s = services[idx];
-    gcIcon.style.opacity = gcTitle.style.opacity = gcDesc.style.opacity = '0';
+    if (gcIcon) gcIcon.style.opacity = '0';
+    if (gcTitle) gcTitle.style.opacity = '0';
+    if (gcDesc) gcDesc.style.opacity = '0';
     setTimeout(() => {
-      gcIcon.textContent  = s.icon;
-      gcTitle.textContent = s.title;
-      gcDesc.textContent  = s.desc;
-      gcIcon.style.opacity = gcTitle.style.opacity = gcDesc.style.opacity = '1';
+      if (gcIcon) { gcIcon.textContent = s.icon; gcIcon.style.opacity = '1'; }
+      if (gcTitle) { gcTitle.textContent = s.title; gcTitle.style.opacity = '1'; }
+      if (gcDesc) { gcDesc.textContent = s.desc; gcDesc.style.opacity = '1'; }
     }, 220);
   }
 
@@ -81,12 +83,12 @@
     ctx.clearRect(0, 0, W, H);
 
     // pronounced glow behind center circle
-    const cGlow = ctx.createRadialGradient(cx, cy, 0, cx, cy, 230);
+    const cGlow = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * 1.2);
     cGlow.addColorStop(0,    'rgba(55,138,221,0.60)');
     cGlow.addColorStop(0.35, 'rgba(55,138,221,0.35)');
     cGlow.addColorStop(0.70, 'rgba(55,138,221,0.12)');
     cGlow.addColorStop(1,    'transparent');
-    ctx.beginPath(); ctx.arc(cx, cy, 230, 0, Math.PI * 2);
+    ctx.beginPath(); ctx.arc(cx, cy, R * 1.2, 0, Math.PI * 2);
     ctx.fillStyle = cGlow; ctx.fill();
 
     // large outer circle
@@ -120,7 +122,7 @@
       }
 
       // dot
-      const dotR = isActive ? 7 : 3 + depth * 2.5;
+      const dotR = isActive ? Math.min(7, R * 0.04) : Math.min(3 + depth * 2.5, R * 0.03);
       ctx.beginPath(); ctx.arc(px, py, dotR, 0, Math.PI * 2);
       if (isActive) {
         ctx.fillStyle   = '#378ADD';
@@ -140,26 +142,22 @@
 
       // offset label to the side of the dot
       const dx = px - cx;
-      const labelOffsetX = dx >= 0 ? dotR + 8 : -(ctx.measureText(label).width + dotR + 8);
-      const lx2 = px + labelOffsetX;
+      const maxX = W - ctx.measureText(label).width - 16;
+      const minX = 8;
+      const idealX = dx >= 0 ? px + dotR + 8 : px - ctx.measureText(label).width - dotR - 8;
+      const lx2 = Math.max(minX, Math.min(idealX, maxX));
       const ly2 = py + fontSize * 0.36;
 
+
+      ctx.textAlign = 'left';
       if (isActive) {
-        // pill with border highlight
-        ctx.textAlign = 'left';
-        const tw  = ctx.measureText(label).width;
-        const pad = 8;
-        ctx.fillStyle = 'rgba(2,27,51,0.92)';
-        ctx.beginPath();
-        ctx.roundRect(lx2 - pad, ly2 - fontSize, tw + pad * 2, fontSize + pad + 2, 6);
-        ctx.fill();
-        ctx.strokeStyle = 'rgba(55,138,221,0.6)';
-        ctx.lineWidth   = 1.5;
-        ctx.stroke();
+        ctx.font = `700 ${fontSize}px 'Syne', sans-serif`;
         ctx.fillStyle = '#fff';
+        ctx.shadowColor = 'rgba(55,138,221,0.8)';
+        ctx.shadowBlur = 10;
         ctx.fillText(label, lx2, ly2);
+        ctx.shadowBlur = 0;
       } else {
-        ctx.textAlign = 'left';
         ctx.fillStyle = `rgba(181,212,244,${0.3 + depth * 0.5})`;
         ctx.fillText(label, lx2, ly2);
       }
@@ -199,14 +197,17 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 // counter trigger when hero visible
 const heroObserver = new IntersectionObserver((entries) => {
   if (entries[0].isIntersecting) {
-    setTimeout(() => animateCount(document.getElementById('cnt-delegates'), 128, '', 1200), 600);
-    setTimeout(() => animateCount(document.getElementById('cnt-onboard'), 84, '%', 1200), 700);
-    setTimeout(() => animateCount(document.getElementById('cnt-pay'), 24, 'k', 1000), 800);
+    const delegates = document.getElementById('cnt-delegates');
+    const onboard = document.getElementById('cnt-onboard');
+    const pay = document.getElementById('cnt-pay');
+    if (delegates) setTimeout(() => animateCount(delegates, 128, '', 1200), 600);
+    if (onboard) setTimeout(() => animateCount(onboard, 84, '%', 1200), 700);
+    if (pay) setTimeout(() => animateCount(pay, 24, 'k', 1000), 800);
     heroObserver.disconnect();
   }
 }, { threshold: 0.3 });
-heroObserver.observe(document.getElementById('hero'));
-
+const heroEl = document.getElementById('hero');
+if (heroEl) heroObserver.observe(heroEl);
 // nav scroll effect
 window.addEventListener('scroll', () => {
   const nav = document.getElementById('navbar');
@@ -405,6 +406,9 @@ function closeLightbox() {
 }
 
 // close on background click
-document.getElementById('lightbox').addEventListener('click', function(e) {
-  if (e.target === this) closeLightbox();
-});
+const lightbox = document.getElementById('lightbox');
+if (lightbox) {
+  lightbox.addEventListener('click', function(e) {
+    if (e.target === this) closeLightbox();
+  });
+}
