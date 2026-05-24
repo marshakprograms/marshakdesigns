@@ -412,3 +412,73 @@ if (lightbox) {
     if (e.target === this) closeLightbox();
   });
 }
+
+// ── PRICING SHUFFLE ──
+(function() {
+  const cards = [
+    document.getElementById('priceCard1'),
+    document.getElementById('priceCard2'),
+    document.getElementById('priceCard3')
+  ];
+  if (!cards[0]) return;
+
+  let activeCard = 0;
+  let expanded = false;
+  let expandTimer = null;
+  let shuffleTimer = null;
+
+  const positions = [
+    { zIndex: 3, transform: 'translateX(0px) rotate(0deg) scale(1)',     opacity: 1    },
+    { zIndex: 2, transform: 'translateX(20px) rotate(4deg) scale(0.96)', opacity: 0.85 },
+    { zIndex: 1, transform: 'translateX(40px) rotate(8deg) scale(0.92)', opacity: 0.7  },
+  ];
+
+  function applyPositions(startIndex) {
+    cards.forEach((card, i) => {
+      const posIndex = (i - startIndex + 3) % 3;
+      const pos = positions[posIndex];
+      card.style.zIndex    = pos.zIndex;
+      card.style.transform = pos.transform;
+      card.style.opacity   = pos.opacity;
+      card.style.width     = '100%';
+      card.classList.toggle('active', posIndex === 0);
+    });
+    activeCard = startIndex;
+    expanded = false;
+  }
+
+  function expandCard(card) {
+    if (expanded) return;
+    expanded = true;
+    clearInterval(shuffleTimer);
+    clearTimeout(expandTimer);
+
+    // expand the clicked card
+    card.style.transform = 'translateX(0px) rotate(0deg) scale(1.05)';
+    card.style.zIndex = 10;
+    card.style.opacity = 1;
+    card.style.boxShadow = '0 0 60px rgba(55,138,221,0.4)';
+
+    // collapse back after 10 seconds and resume shuffle
+    expandTimer = setTimeout(() => {
+      card.style.boxShadow = '';
+      applyPositions(activeCard);
+      shuffleTimer = setInterval(() => {
+        applyPositions((activeCard + 1) % 3);
+      }, 4000);
+    }, 10000);
+  }
+
+  // click to expand
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      expandCard(card);
+    });
+  });
+
+  // start auto shuffle
+  applyPositions(0);
+  shuffleTimer = setInterval(() => {
+    if (!expanded) applyPositions((activeCard + 1) % 3);
+  }, 4000);
+})();
