@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for, flash
+from flask import Flask, render_template, request, jsonify, redirect, url_for, flash, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
 from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
@@ -14,7 +14,7 @@ app = Flask(__name__)
 # Configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///marshakdesigns.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'your-secret-key-here'
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 # Mail configuration
 app.config['MAIL_SERVER']   = 'smtp.gmail.com'
@@ -58,9 +58,24 @@ def load_user(user_id):
 def index():
     return render_template('index.html')
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/robots.txt')
+def robots():
+    return send_from_directory('static', 'robots.txt')
+
 @app.route('/contact', methods=['POST'])
 def contact():
     data = request.get_json()
+
+    if not data or not data.get('name') or not data.get('email'):
+        return jsonify({
+            'success': False,
+            'message': 'Name and email are required.'
+        }), 400
+
     new_contact = Contact(
         name=data.get('name'),
         email=data.get('email'),
@@ -72,14 +87,16 @@ def contact():
     db.session.add(new_contact)
     db.session.commit()
 
-    # Send SMS notification via email-to-SMS gateway
     try:
         msg = Message(
             subject='New Contact',
             sender=os.getenv('MAIL_USERNAME'),
-            recipients=['9198089656@vtext.com']
+            recipients=[os.getenv('SMS_RECIPIENT')]
         )
-        msg.body = f"marshakdesigns.com: New inquiry from {data.get('name')} - {data.get('email')}. Login at marshakdesigns.com/admin/contacts to view."
+        msg.body = (
+            f"marshakdesigns.com: New inquiry from {data.get('name')} - "
+            f"{data.get('email')}. Login at marshakdesigns.com/admin/contacts to view."
+        )
         mail.send(msg)
     except Exception as e:
         print(f'SMS notification failed: {e}')
@@ -110,25 +127,9 @@ def admin_contacts():
     contacts = Contact.query.order_by(Contact.date_submitted.desc()).all()
     return render_template('admin.html', contacts=contacts)
 
-@app.route('/robots.txt')
-def robots():
-    from flask import send_from_directory
-    return send_from_directory('static', 'robots.txt')
-
-@app.route('/about')
-def about():
-    return render_template('about.html')
-
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
         if not Admin.query.first():
-            admin = Admin(
-                username='marsha',
-                password=generate_password_hash('changeme123')
-            )
-            db.session.add(admin)
-            db.session.commit()
-            print('Default admin created — username: marsha, password: changeme123')
+            print('No admin found. Create one using the update script.')
     app.run(debug=True)
-    
