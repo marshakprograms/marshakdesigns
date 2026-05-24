@@ -1,125 +1,318 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About Marsha K — MarshaK Designs</title>
-<meta name="description" content="Learn about Marsha K — the developer and operations specialist behind MarshaK Designs. Custom digital platforms for small businesses.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-<link rel="icon" href="data:,">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>About Marsha K — MarshaK Designs</title>
+  <meta name="description" content="Learn about Marsha K — the developer, designer, and operations-minded builder behind MarshaK Designs. Custom websites, business platforms, and digital tools for small businesses and startups.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="icon" href="data:,">
+
+  <style>
+    @media (max-width: 900px) {
+      .about-hero-grid,
+      .about-split-grid,
+      .beliefs-grid,
+      .build-grid {
+        grid-template-columns: 1fr !important;
+      }
+
+      .about-hero-grid {
+        gap: 2.5rem !important;
+      }
+
+      .about-hero-grid img {
+        height: 380px !important;
+      }
+
+      section {
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .about-hero-grid img {
+        height: 330px !important;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- NAV -->
-<nav id="navbar">
-  <div class="nav-logo">
-    <a href="/" style="text-decoration:none;">
-      <span class="nav-logo-top">Marsha K <span>Designs</span></span>
-      <span class="nav-logo-sub">Business Operations &amp; Digital Platform Solutions</span>
-    </a>
-  </div>
-  <div class="nav-links">
-    <a href="/#services">Services</a>
-    <a href="/#projects">Projects</a>
-    <a href="/#process">Process</a>
-    <a href="/about" style="color:var(--white);">About</a>
-    <a href="/#contact">Contact</a>
-  </div>
-  <button class="nav-cta" onclick="window.location.href='/#contact'">Let's work together →</button>
-</nav>
-
-<!-- ABOUT HERO -->
-<section style="min-height:100vh; display:flex; align-items:center; padding:8rem 3rem 4rem; background:var(--navy); position:relative; overflow:hidden;">
-  <div class="hero-grid-bg"></div>
-  <div style="max-width:1200px; margin:0 auto; width:100%; display:grid; grid-template-columns:1fr 1.5fr; gap:5rem; align-items:center;">
-
-    <!-- PHOTO -->
-    <div style="display:flex; flex-direction:column; gap:1.5rem;">
-      <img src="{{ url_for('static', filename='images/MarshaK.png') }}" alt="Marsha K" style="width:100%; height:500px; object-fit:cover; object-position:center top; border-radius:20px; box-shadow:0 0 60px rgba(55,138,221,0.25);">
-      <div style="background:rgba(12,68,124,0.3); border:1px solid rgba(55,138,221,0.2); border-radius:14px; padding:1.5rem;">
-        <div style="font-family:'Syne',sans-serif; font-size:13px; color:var(--blue-bright); letter-spacing:0.1em; margin-bottom:0.75rem; text-transform:uppercase;">My Philosophy</div>
-        <div style="font-size:16px; color:var(--white); line-height:1.7; font-style:italic;">"Technology should simplify your business, strengthen your vision, and still feel personal."</div>
-      </div>
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-logo">
+      <a href="/" style="text-decoration:none; display:flex; flex-direction:column; gap:2px;">
+        <span class="nav-logo-top">Marsha K <span>Designs</span></span>
+        <span class="nav-logo-sub">Business Operations &amp; Digital Platform Solutions</span>
+      </a>
     </div>
 
-    <!-- STORY -->
-    <div>
-      <div class="eyebrow">My Story</div>
-      <h1 style="font-family:'Syne',sans-serif; font-size:clamp(32px,4vw,48px); font-weight:800; color:var(--white); line-height:1.1; margin-bottom:2rem; letter-spacing:-0.02em;">I didn't come into tech through the <em style="color:var(--blue-bright); font-style:normal;">traditional route.</em></h1>
+    <div class="nav-links" id="navLinks">
+      <a href="/#services">Services</a>
+      <a href="/#projects">Projects</a>
+      <a href="/#process">Process</a>
+      <a href="/about" style="color:var(--white);">About</a>
+      <a href="/#contact">Contact</a>
+    </div>
+
+    <button class="nav-cta" onclick="window.location.href='/#contact'">Let's work together →</button>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+
+  <!-- ABOUT HERO -->
+  <section style="min-height:100vh; display:flex; align-items:center; padding:8rem 3rem 5rem; background:var(--navy); position:relative; overflow:hidden;">
+    <div class="hero-grid-bg"></div>
+
+    <div class="about-hero-grid" style="max-width:1200px; margin:0 auto; width:100%; display:grid; grid-template-columns:1.45fr 1fr; gap:5rem; align-items:start; position:relative; z-index:2;">
+
+      <!-- STORY -->
+      <div>
+        <div class="eyebrow">My Story</div>
+
+        <h1 style="font-family:'Syne',sans-serif; font-size:clamp(34px,4vw,54px); font-weight:800; color:var(--white); line-height:1.08; margin-bottom:2rem; letter-spacing:-0.03em;">
+          I didn’t come into tech through the <em style="color:var(--blue-bright); font-style:normal;">traditional route.</em>
+        </h1>
+
+        <div style="display:flex; flex-direction:column; gap:1.25rem;">
+          <p style="font-size:19px; color:var(--blue-ghost); line-height:1.8; font-weight:300;">
+            I came into it through people, problem-solving, business operations, creativity, and the determination to keep growing no matter what season of life I was in.
+          </p>
+
+          <p style="font-size:19px; color:var(--blue-ghost); line-height:1.8; font-weight:300;">
+            For years, I worked in leadership, customer support, operations, and creative design — learning how businesses actually function behind the scenes. I saw where communication breaks down, where processes become overwhelming, and how many small businesses struggle with systems that were never truly built for them.
+          </p>
+
+          <p style="font-size:19px; color:var(--blue-ghost); line-height:1.8; font-weight:300;">
+            Over time, I realized I didn’t just want to support systems. I wanted to build better ones.
+          </p>
+
+          <p style="font-size:19px; color:var(--blue-ghost); line-height:1.8; font-weight:300;">
+            So I began teaching myself programming, web development, automation, and business-focused software design. What started as curiosity quickly became passion — and eventually evolved into Marsha K Designs.
+          </p>
+
+          <p style="font-size:19px; color:var(--blue-ghost); line-height:1.8; font-weight:300;">
+            Today, I create modern websites, operational platforms, and custom digital tools designed to help businesses work smarter, communicate better, and grow with confidence.
+          </p>
+        </div>
+      </div>
+
+      <!-- PHOTO + PHILOSOPHY -->
+      <div style="display:flex; flex-direction:column; gap:1.5rem; padding-top:2.4rem;">
+        <img src="{{ url_for('static', filename='images/MarshaK.png') }}" alt="Marsha K" style="width:100%; height:500px; object-fit:cover; object-position:center top; border-radius:20px; box-shadow:0 0 60px rgba(55,138,221,0.25);">
+
+        <div style="background:rgba(12,68,124,0.3); border:1px solid rgba(55,138,221,0.2); border-radius:14px; padding:1.5rem;">
+          <div style="font-family:'Syne',sans-serif; font-size:16px; color:var(--blue-bright); letter-spacing:0.1em; margin-bottom:0.75rem; text-transform:uppercase;">
+            My Philosophy
+          </div>
+
+          <div style="font-size:20px; color:var(--white); line-height:1.7; font-style:italic;">
+            “Technology should simplify your business, strengthen your vision, and still feel personal.”
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- WHAT MAKES MY APPROACH DIFFERENT -->
+  <section style="background:var(--navy-mid); padding:5rem 3rem;">
+    <div class="about-split-grid" style="max-width:1200px; margin:0 auto; display:grid; grid-template-columns:0.9fr 1.1fr; gap:4rem; align-items:start;">
+
+      <div>
+        <div class="eyebrow" style="margin-bottom:0.5rem;">My Approach</div>
+
+        <h2 style="font-family:'Syne',sans-serif; font-size:clamp(30px,3vw,42px); font-weight:800; color:var(--white); line-height:1.15; letter-spacing:-0.02em;">
+          What makes my work different.
+        </h2>
+      </div>
 
       <div style="display:flex; flex-direction:column; gap:1.25rem;">
-        <p style="font-size:17px; color:var(--blue-ghost); line-height:1.8; font-weight:300;">My journey has been built through life experience, creativity, problem-solving, and a determination to keep growing no matter what season of life I was in. For years, I worked in leadership, customer support, operations, and creative design — learning how businesses really function behind the scenes and how important people are to every process.</p>
+        <p style="font-size:18px; color:var(--blue-ghost); line-height:1.8; font-weight:300;">
+          I don’t believe technology should feel cold, confusing, or disconnected from the people using it.
+        </p>
 
-        <p style="font-size:17px; color:var(--blue-ghost); line-height:1.8; font-weight:300;">Over time, I realized I didn't just want to support systems… I wanted to build them. I began teaching myself programming, web development, automation, and business-focused software design. What started as curiosity quickly became passion. Today, I create websites, operational platforms, and custom business tools designed to help small businesses and organizations work smarter, communicate better, and grow with confidence.</p>
+        <p style="font-size:18px; color:var(--blue-ghost); line-height:1.8; font-weight:300;">
+          Too many businesses end up with generic solutions that look impressive but don’t actually support the way they operate day to day.
+        </p>
 
-        <p style="font-size:17px; color:var(--blue-ghost); line-height:1.8; font-weight:300;">I believe technology should feel human. Too many businesses are overwhelmed by complicated systems or generic solutions that don't truly fit how they operate. My approach combines creativity, strategy, and real-world business understanding to build solutions that are practical, polished, and personal.</p>
+        <p style="font-size:18px; color:var(--blue-ghost); line-height:1.8; font-weight:300;">
+          My approach combines business understanding, operational thinking, creativity, user experience, and modern technology to create solutions that are both practical and polished.
+        </p>
 
-        <p style="font-size:17px; color:var(--blue-ghost); line-height:1.8; font-weight:300;">At this stage in my life, I'm not chasing trends — I'm building legacy. Every project I take on is an opportunity to create something meaningful, useful, and lasting for the people I serve.</p>
+        <p style="font-size:18px; color:var(--blue-ghost); line-height:1.8; font-weight:300;">
+          Whether I’m building a business website, a workflow platform, or a custom management system, my goal is always the same: to create something that genuinely helps people.
+        </p>
       </div>
+
+    </div>
+  </section>
+
+
+  <!-- WHAT I BUILD -->
+  <section style="background:var(--navy); padding:5rem 3rem;">
+    <div style="max-width:1200px; margin:0 auto;">
+
+      <div class="eyebrow" style="margin-bottom:0.5rem;">What I Build</div>
+
+      <h2 style="font-family:'Syne',sans-serif; font-size:clamp(30px,3vw,42px); font-weight:800; color:var(--white); margin-bottom:1rem; letter-spacing:-0.02em;">
+        Digital tools for businesses that need more than “just a website.”
+      </h2>
+
+      <p style="font-size:18px; color:var(--blue-ghost); line-height:1.8; font-weight:300; max-width:850px; margin-bottom:2.5rem;">
+        I especially enjoy helping small businesses, startups, and organizations that need systems to support growth, organization, communication, and day-to-day operations.
+      </p>
+
+      <div class="build-grid" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:1.25rem;">
+
+        <div style="background:rgba(12,68,124,0.28); border:1px solid rgba(55,138,221,0.18); border-radius:16px; padding:1.5rem;">
+          <h3 style="font-family:'Syne',sans-serif; color:var(--white); font-size:20px; margin-bottom:0.7rem;">Business Websites</h3>
+          <p style="color:var(--blue-ghost); line-height:1.7; font-size:16px;">Modern, branded websites designed to build trust, explain your services, and help people take action.</p>
+        </div>
+
+        <div style="background:rgba(12,68,124,0.28); border:1px solid rgba(55,138,221,0.18); border-radius:16px; padding:1.5rem;">
+          <h3 style="font-family:'Syne',sans-serif; color:var(--white); font-size:20px; margin-bottom:0.7rem;">Operational Platforms</h3>
+          <p style="color:var(--blue-ghost); line-height:1.7; font-size:16px;">Custom dashboards and internal tools that help businesses manage clients, tasks, payments, and workflows.</p>
+        </div>
+
+        <div style="background:rgba(12,68,124,0.28); border:1px solid rgba(55,138,221,0.18); border-radius:16px; padding:1.5rem;">
+          <h3 style="font-family:'Syne',sans-serif; color:var(--white); font-size:20px; margin-bottom:0.7rem;">Booking & Scheduling Tools</h3>
+          <p style="color:var(--blue-ghost); line-height:1.7; font-size:16px;">Service-based systems that help clients request appointments, reserve time, and stay organized.</p>
+        </div>
+
+        <div style="background:rgba(12,68,124,0.28); border:1px solid rgba(55,138,221,0.18); border-radius:16px; padding:1.5rem;">
+          <h3 style="font-family:'Syne',sans-serif; color:var(--white); font-size:20px; margin-bottom:0.7rem;">Client & Team Systems</h3>
+          <p style="color:var(--blue-ghost); line-height:1.7; font-size:16px;">Tools that improve communication, accountability, progress tracking, and team coordination.</p>
+        </div>
+
+        <div style="background:rgba(12,68,124,0.28); border:1px solid rgba(55,138,221,0.18); border-radius:16px; padding:1.5rem;">
+          <h3 style="font-family:'Syne',sans-serif; color:var(--white); font-size:20px; margin-bottom:0.7rem;">Workflow Automation</h3>
+          <p style="color:var(--blue-ghost); line-height:1.7; font-size:16px;">Simple automations that reduce repetitive work and make your day-to-day business easier to manage.</p>
+        </div>
+
+        <div style="background:rgba(12,68,124,0.28); border:1px solid rgba(55,138,221,0.18); border-radius:16px; padding:1.5rem;">
+          <h3 style="font-family:'Syne',sans-serif; color:var(--white); font-size:20px; margin-bottom:0.7rem;">Custom Business Apps</h3>
+          <p style="color:var(--blue-ghost); line-height:1.7; font-size:16px;">Purpose-built digital solutions for businesses that have outgrown spreadsheets, manual tracking, or disconnected tools.</p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- BELIEFS -->
+  <section style="background:var(--navy-mid); padding:5rem 3rem;">
+    <div style="max-width:1200px; margin:0 auto;">
+
+      <div class="eyebrow" style="margin-bottom:0.5rem;">What I Believe</div>
+
+      <h2 style="font-family:'Syne',sans-serif; font-size:clamp(30px,3vw,42px); font-weight:800; color:var(--white); margin-bottom:2rem; letter-spacing:-0.02em;">
+        The principles behind every project.
+      </h2>
+
+      <div class="beliefs-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; max-width:1100px;">
+
+        <div style="font-size:18px; color:var(--blue-ghost); line-height:1.6;">
+          <span style="color:var(--teal-light); font-size:22px; font-weight:700; margin-right:10px;">•</span>
+          <strong style="color:var(--white); font-family:'Syne',sans-serif;">Small businesses deserve powerful tools too.</strong>
+        </div>
+
+        <div style="font-size:18px; color:var(--blue-ghost); line-height:1.6;">
+          <span style="color:var(--teal-light); font-size:22px; font-weight:700; margin-right:10px;">•</span>
+          <strong style="color:var(--white); font-family:'Syne',sans-serif;">Good design builds trust before a word is spoken.</strong>
+        </div>
+
+        <div style="font-size:18px; color:var(--blue-ghost); line-height:1.6;">
+          <span style="color:var(--teal-light); font-size:22px; font-weight:700; margin-right:10px;">•</span>
+          <strong style="color:var(--white); font-family:'Syne',sans-serif;">A website should work for your business — not just sit online.</strong>
+        </div>
+
+        <div style="font-size:18px; color:var(--blue-ghost); line-height:1.6;">
+          <span style="color:var(--teal-light); font-size:22px; font-weight:700; margin-right:10px;">•</span>
+          <strong style="color:var(--white); font-family:'Syne',sans-serif;">Creativity and technology belong together.</strong>
+        </div>
+
+        <div style="font-size:18px; color:var(--blue-ghost); line-height:1.6;">
+          <span style="color:var(--teal-light); font-size:22px; font-weight:700; margin-right:10px;">•</span>
+          <strong style="color:var(--white); font-family:'Syne',sans-serif;">Real solutions come from listening first.</strong>
+        </div>
+
+        <div style="font-size:18px; color:var(--blue-ghost); line-height:1.6;">
+          <span style="color:var(--teal-light); font-size:22px; font-weight:700; margin-right:10px;">•</span>
+          <strong style="color:var(--white); font-family:'Syne',sans-serif;">It’s never too late to reinvent yourself.</strong>
+        </div>
+
+      </div>
+
+      <div style="max-width:1100px; margin-top:1.25rem; display:flex; justify-content:center;">
+        <div style="font-size:18px; color:var(--blue-ghost); line-height:1.6; text-align:center;">
+          <span style="color:var(--teal-light); font-size:22px; font-weight:700; margin-right:10px;">•</span>
+          <strong style="color:var(--white); font-family:'Syne',sans-serif;">AI is a tool — not a replacement for human vision, strategy, or connection.</strong>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- WHERE I'M HEADED -->
+  <section style="background:var(--navy); padding:5rem 3rem;">
+    <div style="max-width:950px; margin:0 auto; text-align:center;">
+
+      <div class="eyebrow" style="margin-bottom:0.75rem;">Where I’m Headed</div>
+
+      <h2 style="font-family:'Syne',sans-serif; font-size:clamp(32px,4vw,50px); font-weight:800; color:var(--white); line-height:1.12; margin-bottom:1.5rem; letter-spacing:-0.03em;">
+        I’m not chasing trends. I’m building meaningful work.
+      </h2>
+
+      <p style="font-size:20px; color:var(--blue-ghost); line-height:1.8; font-weight:300; margin-bottom:1rem;">
+        I’m building systems that help people. I’m building a business rooted in creativity, strategy, growth, and legacy.
+      </p>
+
+      <p style="font-size:20px; color:var(--blue-ghost); line-height:1.8; font-weight:300;">
+        And I’m just getting started.
+      </p>
+
+      <div style="text-align:center; margin-top:3rem;">
+        <a href="/#contact" style="font-family:'Syne',sans-serif; font-size:20px; font-weight:700; color:var(--blue-bright); text-decoration:none; border-bottom:2px solid rgba(55,138,221,0.4); padding-bottom:4px; transition:all 0.2s;" onmouseover="this.style.color='#fff'; this.style.borderColor='#fff'" onmouseout="this.style.color='var(--blue-bright)'; this.style.borderColor='rgba(55,138,221,0.4)'">
+          Ready to build something real? →
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Marsha K <span>Designs</span></div>
+
+    <div class="footer-links">
+      <a href="/#services">Services</a>
+      <a href="/#projects">Projects</a>
+      <a href="/about">About</a>
+      <a href="/#contact">Contact</a>
     </div>
 
-  </div>
-</section>
+    <div class="footer-copy">© 2026 MarshaK Designs · marshakdesigns.com</div>
+  </footer>
 
-<!-- BELIEFS -->
-<div style="background:var(--navy-mid); padding:4rem 3rem;">
-  <div style="max-width:1200px; margin:0 auto;">
-    <div class="eyebrow" style="margin-bottom:0.5rem;">What I Believe</div>
-    <h2 style="font-family:'Syne',sans-serif; font-size:32px; font-weight:700; color:var(--white); margin-bottom:3rem;">The principles behind every project.</h2>
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:1.5rem;">
-      <div style="background:rgba(12,68,124,0.25); border:1px solid rgba(55,138,221,0.15); border-radius:14px; padding:1.5rem;">
-        <div style="font-size:24px; margin-bottom:0.75rem;">💡</div>
-        <div style="font-family:'Syne',sans-serif; font-size:15px; font-weight:700; color:var(--white); margin-bottom:0.5rem;">Small businesses deserve powerful tools too.</div>
-      </div>
-      <div style="background:rgba(12,68,124,0.25); border:1px solid rgba(55,138,221,0.15); border-radius:14px; padding:1.5rem;">
-        <div style="font-size:24px; margin-bottom:0.75rem;">🎨</div>
-        <div style="font-family:'Syne',sans-serif; font-size:15px; font-weight:700; color:var(--white); margin-bottom:0.5rem;">Good design builds trust before a word is spoken.</div>
-      </div>
-      <div style="background:rgba(12,68,124,0.25); border:1px solid rgba(55,138,221,0.15); border-radius:14px; padding:1.5rem;">
-        <div style="font-size:24px; margin-bottom:0.75rem;">🤝</div>
-        <div style="font-family:'Syne',sans-serif; font-size:15px; font-weight:700; color:var(--white); margin-bottom:0.5rem;">Real solutions come from listening first.</div>
-      </div>
-      <div style="background:rgba(12,68,124,0.25); border:1px solid rgba(55,138,221,0.15); border-radius:14px; padding:1.5rem;">
-        <div style="font-size:24px; margin-bottom:0.75rem;">🚀</div>
-        <div style="font-family:'Syne',sans-serif; font-size:15px; font-weight:700; color:var(--white); margin-bottom:0.5rem;">It's never too late to reinvent yourself.</div>
-      </div>
-      <div style="background:rgba(12,68,124,0.25); border:1px solid rgba(55,138,221,0.15); border-radius:14px; padding:1.5rem;">
-        <div style="font-size:24px; margin-bottom:0.75rem;">⚡</div>
-        <div style="font-family:'Syne',sans-serif; font-size:15px; font-weight:700; color:var(--white); margin-bottom:0.5rem;">Creativity and technology belong together.</div>
-      </div>
-      <div style="background:rgba(12,68,124,0.25); border:1px solid rgba(55,138,221,0.15); border-radius:14px; padding:1.5rem;">
-        <div style="font-size:24px; margin-bottom:0.75rem;">🧠</div>
-        <div style="font-family:'Syne',sans-serif; font-size:15px; font-weight:700; color:var(--white); margin-bottom:0.5rem;">AI is a tool — not a replacement for human vision and strategy.</div>
-      </div>
-    </div>
 
-    <!-- FUN FACT -->
-    <div style="margin-top:3rem; background:rgba(55,138,221,0.08); border:1px solid rgba(55,138,221,0.2); border-radius:14px; padding:1.5rem; display:flex; align-items:center; gap:1rem;">
-      <div style="font-size:28px;">☕</div>
-      <div style="font-size:15px; color:var(--blue-ghost);">Coffee, late-night coding sessions, and creative ideas are a regular part of my process.</div>
-    </div>
-
-    <!-- CTA -->
-    <div style="text-align:center; margin-top:4rem;">
-      <p style="font-size:18px; color:var(--blue-ghost); margin-bottom:1.5rem;">Ready to build something real?</p>
-      <button class="btn-primary" onclick="window.location.href='/#contact'" style="font-size:16px; padding:16px 36px;">Let's work together →</button>
-    </div>
-  </div>
-</div>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo">Marsha K <span>Designs</span></div>
-  <div class="footer-links">
-    <a href="/#services">Services</a>
-    <a href="/#projects">Projects</a>
-    <a href="/about">About</a>
-    <a href="/#contact">Contact</a>
-  </div>
-  <div class="footer-copy">© 2026 MarshaK Designs · marshakdesigns.com</div>
-</footer>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
 </body>
 </html>

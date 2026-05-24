@@ -482,3 +482,18 @@ if (lightbox) {
     if (!expanded) applyPositions((activeCard + 1) % 3);
   }, 4000);
 })();
+
+// ── HAMBURGER MENU ──
+function toggleMenu() {
+  const nav = document.getElementById('navLinks');
+  const burger = document.getElementById('hamburger');
+  nav.classList.toggle('open');
+  burger.classList.toggle('open');
+}
+
+document.querySelectorAll('#navLinks a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('navLinks').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+  });
+});

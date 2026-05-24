@@ -29,18 +29,25 @@
 <body>
 
 <!-- NAV -->
+<!-- NAV -->
 <nav id="navbar">
   <div class="nav-logo">
     <span class="nav-logo-top">Marsha K <span>Designs</span></span>
     <span class="nav-logo-sub">Business Operations &amp; Digital Platform Solutions</span>
   </div>
-  <div class="nav-links">
+  <div class="nav-links" id="navLinks">
     <a href="#services">Services</a>
     <a href="#projects">Projects</a>
     <a href="#process">Process</a>
+    <a href="/about">About</a>
     <a href="#contact">Contact</a>
   </div>
   <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Let's work together →</button>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 </nav>
 
 <!-- HERO -->
