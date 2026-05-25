@@ -17,6 +17,15 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--blue-bright);
+  outline-offset: 3px;
+}
+
 html { scroll-behavior: smooth; max-width: 100vw; overflow-x: hidden; }
 
 body {
@@ -165,58 +174,6 @@ nav {
   flex: 0 0 320px;
   animation: fadeSlideUp 0.7s 0.2s ease both;
 }
-.dash-card {
-  background: rgba(12,68,124,0.35);
-  border: 1px solid rgba(55,138,221,0.25);
-  border-radius: 16px; overflow: hidden;
-  backdrop-filter: blur(8px);
-}
-.dash-header {
-  background: rgba(4,44,83,0.8);
-  padding: 12px 16px;
-  display: flex; align-items: center; gap: 8px;
-  border-bottom: 1px solid rgba(55,138,221,0.15);
-}
-.dash-dots { display: flex; gap: 5px; }
-.dash-dot { width: 8px; height: 8px; border-radius: 50%; }
-.dash-title { font-size: 12px; color: var(--blue-pale); font-family: 'Syne', sans-serif; font-weight: 600; }
-.dash-body { padding: 16px; }
-.dash-metrics { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 12px; }
-.dash-metric {
-  background: rgba(4,44,83,0.7);
-  border: 1px solid rgba(55,138,221,0.2);
-  border-radius: 8px; padding: 10px 8px; text-align: center;
-}
-.dm-val { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: var(--white); }
-.dm-label { font-size: 9px; color: var(--blue-pale); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.06em; }
-.dm-up { font-size: 9px; color: var(--teal-light); margin-top: 1px; }
-.dash-chart-wrap {
-  background: rgba(4,44,83,0.7);
-  border: 1px solid rgba(55,138,221,0.2);
-  border-radius: 8px; padding: 12px;
-}
-.dash-chart-label { font-size: 10px; color: var(--blue-pale); margin-bottom: 10px; letter-spacing: 0.06em; text-transform: uppercase; }
-.bars { display: flex; align-items: flex-end; gap: 4px; height: 52px; }
-.bar {
-  flex: 1; border-radius: 2px 2px 0 0;
-  background: rgba(55,138,221,0.35);
-  transition: background 0.3s;
-  animation: barGrow 1s ease both;
-}
-.bar.accent { background: var(--blue-bright); }
-.bar:hover { background: var(--blue-bright); }
-@keyframes barGrow {
-  from { transform: scaleY(0); transform-origin: bottom; }
-  to { transform: scaleY(1); transform-origin: bottom; }
-}
-.bar:nth-child(1) { animation-delay: 0.5s; }
-.bar:nth-child(2) { animation-delay: 0.55s; }
-.bar:nth-child(3) { animation-delay: 0.6s; }
-.bar:nth-child(4) { animation-delay: 0.65s; }
-.bar:nth-child(5) { animation-delay: 0.7s; }
-.bar:nth-child(6) { animation-delay: 0.75s; }
-.bar:nth-child(7) { animation-delay: 0.8s; }
-.bar:nth-child(8) { animation-delay: 0.85s; }
 
 /* ── TRUST STRIP ── */
 .trust-strip {
@@ -342,10 +299,8 @@ nav {
   font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;
   transition: all 0.2s; margin-top: 1rem;
 }
-.proj-link:hover { gap: 8px; color: var(--blue); transform: translateX(3px);
-}
+
 .proj-link:hover { gap: 8px; color: var(--blue); transform: translateX(3px); }
-.proj-link:hover { gap: 8px; }
 .proj-techs { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 8px; }
 .proj-tech { font-size: 11px; padding: 2px 8px; background: #f0f4f8; color: #4a6080; border-radius: 4px; }
 
@@ -384,8 +339,8 @@ nav {
   padding: 5rem 3rem;
   display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;
 }
-.contact-left h2 { font-size: 34px; font-weight: 700; color: var(--white); margin-bottom: 1rem; font-family: 'Syne', sans-serif; letter-spacing: -0.01em; }
-.contact-left p { font-size: 16px; color: var(--blue-ghost); line-height: 1.75; margin-bottom: 2rem; font-weight: 300; }
+#contact h2 { font-size: 34px; font-weight: 700; color: var(--white); margin-bottom: 1rem; font-family: 'Syne', sans-serif; letter-spacing: -0.01em; }
+#contact p { font-size: 16px; color: var(--blue-ghost); line-height: 1.75; margin-bottom: 2rem; font-weight: 300; }
 .contact-info { display: flex; flex-direction: column; gap: 10px; }
 .contact-item {
   display: flex; align-items: center; gap: 10px;
@@ -754,7 +709,7 @@ footer {
   .nav-links { display: none; }
   .nav-logo-top { font-size: 18px; }
   .nav-logo-sub { display: none; }
-  .nav-cta { font-size: 11px; padding: 7px 14px; }
+  .nav-cta { display: none; }
 
   #hero { padding: 7rem 1.5rem 2rem; overflow: hidden; min-height: auto }
   .hero-glow { display: none; }
