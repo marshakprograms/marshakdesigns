@@ -194,26 +194,14 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// counter trigger when hero visible
-const heroObserver = new IntersectionObserver((entries) => {
-  if (entries[0].isIntersecting) {
-    const delegates = document.getElementById('cnt-delegates');
-    const onboard = document.getElementById('cnt-onboard');
-    const pay = document.getElementById('cnt-pay');
-    if (delegates) setTimeout(() => animateCount(delegates, 128, '', 1200), 600);
-    if (onboard) setTimeout(() => animateCount(onboard, 84, '%', 1200), 700);
-    if (pay) setTimeout(() => animateCount(pay, 24, 'k', 1000), 800);
-    heroObserver.disconnect();
-  }
-}, { threshold: 0.3 });
-const heroEl = document.getElementById('hero');
-if (heroEl) heroObserver.observe(heroEl);
-// nav scroll effect
+// ── NAV SCROLL EFFECT ──
 window.addEventListener('scroll', () => {
   const nav = document.getElementById('navbar');
-  nav.style.background = window.scrollY > 40
-    ? 'rgba(2,27,51,0.97)'
-    : 'rgba(2,27,51,0.85)';
+  if (nav) {
+    nav.style.background = window.scrollY > 40
+      ? 'rgba(2,27,51,0.97)'
+      : 'rgba(2,27,51,0.85)';
+  }
 });
 
 // Rising line with animated nodes
@@ -378,6 +366,12 @@ function handleSubmit(e) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Form submission failed');
+    }
+    return response.json();
   })
   .then(() => {
     form.style.display = 'none';
