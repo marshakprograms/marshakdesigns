@@ -31,6 +31,7 @@ app.config['MAIL_TIMEOUT'] = 10
 app.config['MAIL_SUPPRESS_SEND'] = False
 app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_USERNAME')
 
 db = SQLAlchemy(app)
 mail = Mail(app)
@@ -128,23 +129,29 @@ def contact():
 
     sms_recipient = os.getenv('SMS_RECIPIENT')
     
-    # SMS/email notifications temporarily disabled for Railway deployment
-    print(f"New contact submission received from {name} ({email})")
+    try:
+        msg = Message(
+            subject='New Contact - MarshaK Designs',
+            recipients=['marshakdesigns@gmail.com']
+        )
 
-    # if sms_recipient:
-    #     try:
-    #         msg = Message(
-    #             subject='New Contact',
-    #             sender=os.getenv('MAIL_USERNAME'),
-    #             recipients=[sms_recipient]
-    #         )
-    #         msg.body = (
-    #             f"marshakdesigns.com: New inquiry from {name} - "
-    #             f"{email}. Login at marshakdesigns.com/admin/contacts to view."
-    #         )
-    #         mail.send(msg)
-    #     except Exception as e:
-    #         print(f'Notification failed: {e}')
+        msg.body = (
+            f"New website inquiry received.\n\n"
+            f"Name: {name}\n"
+            f"Email: {email}\n"
+            f"Phone: {phone}\n"
+            f"Business: {business}\n"
+            f"Service: {service}\n\n"
+            f"Message:\n{message}\n\n"
+            f"View all leads:\n"
+            f"https://web-production-97833.up.railway.app/admin/contacts"
+        )
+
+        mail.send(msg)
+
+    except Exception as e:
+        print(f'Notification failed: {e}')
+        
 
     return jsonify({
         'success': True,
