@@ -127,21 +127,24 @@ def contact():
     db.session.commit()
 
     sms_recipient = os.getenv('SMS_RECIPIENT')
+    
+    # SMS/email notifications temporarily disabled for Railway deployment
+    print(f"New contact submission received from {name} ({email})")
 
-    if sms_recipient:
-        try:
-            msg = Message(
-                subject='New Contact',
-                sender=os.getenv('MAIL_USERNAME'),
-                recipients=[sms_recipient]
-            )
-            msg.body = (
-                f"marshakdesigns.com: New inquiry from {name} - "
-                f"{email}. Login at marshakdesigns.com/admin/contacts to view."
-            )
-            mail.send(msg)
-        except Exception as e:
-            print(f'Notification failed: {e}')
+    # if sms_recipient:
+    #     try:
+    #         msg = Message(
+    #             subject='New Contact',
+    #             sender=os.getenv('MAIL_USERNAME'),
+    #             recipients=[sms_recipient]
+    #         )
+    #         msg.body = (
+    #             f"marshakdesigns.com: New inquiry from {name} - "
+    #             f"{email}. Login at marshakdesigns.com/admin/contacts to view."
+    #         )
+    #         mail.send(msg)
+    #     except Exception as e:
+    #         print(f'Notification failed: {e}')
 
     return jsonify({
         'success': True,
