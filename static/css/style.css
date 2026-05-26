@@ -328,7 +328,7 @@ nav {
   border-color: var(--blue-bright);
   transform: scale(1.1);
 }
-.step-num { font-size: 10px; color: var(--blue-bright); letter-spacing: 0.1em; margin-bottom: 6px; font-family: 'Syne', sans-serif; font-weight: 700; }
+.step-num { font-size: 13px; color: var(--blue-bright); letter-spacing: 0.1em; margin-bottom: 6px; font-family: 'Syne', sans-serif; font-weight: 700; }
 .process-step h3 { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 6px; font-family: 'Syne', sans-serif; }
 .process-step p { font-size: 13px; color: var(--blue-pale); line-height: 1.6; font-weight: 300; }
 
