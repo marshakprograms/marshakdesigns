@@ -470,6 +470,36 @@ if (lightbox) {
     });
   });
 
+  // swipe to advance
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  const stack = document.getElementById('pricingStack');
+  if (stack) {
+    stack.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    stack.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) {
+        // swiped left — advance
+        clearInterval(shuffleTimer);
+        applyPositions((activeCard + 1) % 3);
+        shuffleTimer = setInterval(() => {
+          if (!expanded) applyPositions((activeCard + 1) % 3);
+        }, 4000);
+      } else if (touchEndX - touchStartX > 50) {
+        // swiped right — go back
+        clearInterval(shuffleTimer);
+        applyPositions((activeCard + 2) % 3);
+        shuffleTimer = setInterval(() => {
+          if (!expanded) applyPositions((activeCard + 1) % 3);
+        }, 4000);
+      }
+    }, { passive: true });
+  }
+
   // start auto shuffle
   applyPositions(0);
   shuffleTimer = setInterval(() => {
