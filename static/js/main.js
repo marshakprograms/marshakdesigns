@@ -346,25 +346,27 @@ window.addEventListener('scroll', () => {
   activate(0);
   draw();
 })();
+
 function handleSubmit(e) {
   e.preventDefault();
+
   const btn = e.target.querySelector('.form-submit');
   btn.textContent = 'Sending...';
   btn.disabled = true;
-
   const form = e.target;
   const data = {
-    name:     form.querySelector('[name="name"]').value,
-    email:    form.querySelector('[name="email"]').value,
-    phone:    form.querySelector('[name="phone"]').value,
-    business: form.querySelector('[name="business"]').value,
-    service:  form.querySelector('[name="service"]').value,
-    message:  form.querySelector('[name="message"]').value,
+    name: form.querySelector('[name="name"]').value,
+    email: form.querySelector('[name="email"]').value,
+    service: form.querySelector('[name="service"]').value,
+    budget: form.querySelector('[name="budget"]').value,
+    message: form.querySelector('[name="message"]').value,
   };
 
   fetch('/contact', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify(data)
   })
   .then(response => {
@@ -379,12 +381,11 @@ function handleSubmit(e) {
     s.style.display = 'flex';
   })
   .catch(() => {
-    btn.textContent = 'Send message →';
+    btn.innerHTML = 'Let’s talk solutions';
     btn.disabled = false;
     alert('Something went wrong. Please try again.');
   });
 }
-
 // ── LIGHTBOX ──
 function openLightbox(src) {
   const lb = document.getElementById('lightbox');
