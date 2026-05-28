@@ -1,35 +1,67 @@
-
-(function() {
+(function () {
   const services = [
-    { icon: '🌐', title: 'Websites',              desc: 'Professional, branded websites that represent your business and convert visitors into customers.' },
-    { icon: '🖥️', title: 'Portals',               desc: 'Custom admin portals and dashboards so you always know what\'s happening in your business.' },
-    { icon: '⚙️', title: 'Workflow Systems',       desc: 'Replace manual processes with systems that track, remind, and report automatically.' },
-    { icon: '🤖', title: 'Automation',             desc: 'Save hours every week by automating the repetitive tasks that slow your team down.' },
-    { icon: '🚀', title: 'Onboarding Systems',     desc: 'Structured digital onboarding flows that get clients, members, or staff up to speed fast.' },
-    { icon: '👥', title: 'Customer Management',    desc: 'Purpose-built CRM tools tailored to how your business actually operates day to day.' },
-    { icon: '💳', title: 'Scheduling & Payments',  desc: 'Integrated booking and payment systems that work seamlessly for you and your customers.' },
-    { icon: '✨', title: 'Branded Experiences',    desc: 'Polished digital products that reflect your brand and leave a lasting impression.' },
+    {
+      icon: 'globe',
+      title: "Business Websites",
+      desc: 'Custom, branded websites designed to present your business clearly, build trust, and convert visitors into leads.',
+    },
+    {
+      icon: 'layout-dashboard',
+      title: "Client & Admin Portals",
+      desc: 'Centralized dashboards that help manage clients, workflows, communication, and daily business operations.',
+    },
+    {
+      icon: 'workflow',
+      title: "Workflow Automation",
+      desc: 'Streamline repetitive business processes with systems that automate tracking, notifications, approvals, and operational tasks.',
+    },
+    {
+      icon: 'bot',
+      title: 'Business Automation',
+      desc: 'Reduce manual work and improve efficiency with automated systems that handle repetitive tasks and operational workflows.',
+    },
+    {
+      icon: 'rocket',
+      title: "Onboarding Workflows",
+      desc: 'Structured onboarding systems that guide clients, members, or staff through organized digital workflows from day one.',
+    },
+    {
+      icon: 'users',
+      title: 'Customer Management', 
+      desc: 'Custom client management systems designed to organize communication, customer activity, scheduling, and day-to-day operations.',
+    },
+    {
+      icon: 'credit-card',
+      title: 'Scheduling & Payments',
+      desc: 'Integrated booking, scheduling, and payment systems designed to simplify operations for both businesses and customers.',
+    },
+    {
+      icon: 'sparkles',
+      title: 'Digital Brand Experiences',
+      desc: 'Professionally designed digital experiences that strengthen brand identity, improve engagement, and create a polished customer presence.',
+    },
   ];
 
-  const canvas  = document.getElementById('globeCanvas');
+  const canvas = document.getElementById("globeCanvas");
   if (!canvas) return;
-  const ctx     = canvas.getContext('2d');
-  const gcIcon  = document.getElementById('gcIcon');
-  const gcTitle = document.getElementById('gcTitle');
-  const gcDesc  = document.getElementById('gcDesc');
+  const ctx = canvas.getContext("2d");
+  const gcIcon = document.getElementById("gcIcon");
+  const gcTitle = document.getElementById("gcTitle");
+  const gcDesc = document.getElementById("gcDesc");
 
   const N = services.length;
   let W, H, cx, cy, R;
 
   function resize() {
     const scene = canvas.parentElement;
-    W = canvas.width  = scene.offsetWidth;
+    W = canvas.width = scene.offsetWidth;
     H = canvas.height = scene.offsetHeight;
-    cx = W / 2; cy = H / 2;
-    R  = Math.min(W, H) * 0.41;
+    cx = W / 2;
+    cy = H / 2;
+    R = Math.min(W, H) * 0.41;
   }
   resize();
-  window.addEventListener('resize', resize);
+  window.addEventListener("resize", resize);
 
   // Each point has its OWN elliptical orbit with unique tilt, size, and speed.
   // This gives the "imaginary orbit" feel — each one traces its own path.
@@ -37,16 +69,16 @@
   // and whichever point is active gets highlighted right where it is.
 
   const STEP_MS = 7000;
-  let activeIdx    = 0;
+  let activeIdx = 0;
   let highlightIdx = -1;
-  let lastStep     = performance.now();
-  let lastFrame    = performance.now();
+  let lastStep = performance.now();
+  let lastFrame = performance.now();
 
   // Each point has its own elliptical orbit with unique tilt, size, and speed
   const orbits = services.map((_, i) => ({
-    rx:    R * (0.72 + (i % 3) * 0.10),
-    ry:    R * (0.28 + (i % 4) * 0.07),
-    tilt:  (i / N) * Math.PI * 0.9,
+    rx: R * (0.72 + (i % 3) * 0.1),
+    ry: R * (0.28 + (i % 4) * 0.07),
+    tilt: (i / N) * Math.PI * 0.9,
     angle: (i / N) * Math.PI * 2,
     speed: 0.00018 + (i % 3) * 0.00004,
   }));
@@ -55,113 +87,141 @@
     if (idx === highlightIdx) return;
     highlightIdx = idx;
     const s = services[idx];
-    if (gcIcon) gcIcon.style.opacity = '0';
-    if (gcTitle) gcTitle.style.opacity = '0';
-    if (gcDesc) gcDesc.style.opacity = '0';
+    if (gcIcon) gcIcon.style.opacity = "0";
+    if (gcTitle) gcTitle.style.opacity = "0";
+    if (gcDesc) gcDesc.style.opacity = "0";
     setTimeout(() => {
-      if (gcIcon) { gcIcon.textContent = s.icon; gcIcon.style.opacity = '1'; }
-      if (gcTitle) { gcTitle.textContent = s.title; gcTitle.style.opacity = '1'; }
-      if (gcDesc) { gcDesc.textContent = s.desc; gcDesc.style.opacity = '1'; }
+      if (gcIcon) {
+        gcIcon.innerHTML = `<i data-lucide="${s.icon}"></i>`;
+
+        if (window.lucide) {
+          lucide.createIcons();
+        }
+        gcIcon.style.opacity = "1";
+      }
+      if (gcTitle) {
+        gcTitle.textContent = s.title;
+        gcTitle.style.opacity = "1";
+      }
+      if (gcDesc) {
+        gcDesc.textContent = s.desc;
+        gcDesc.style.opacity = "1";
+      }
     }, 220);
   }
 
   function draw() {
     const now = performance.now();
-    const dt  = now - lastFrame;
+    const dt = now - lastFrame;
     lastFrame = now;
 
     // advance active index every 7 seconds
     if (now - lastStep >= STEP_MS) {
       activeIdx = (activeIdx + 1) % N;
-      lastStep  = now;
+      lastStep = now;
       setHighlight(activeIdx);
     }
 
     // advance each orbit independently
-    orbits.forEach(o => { o.angle += o.speed * dt; });
+    orbits.forEach((o) => {
+      o.angle += o.speed * dt;
+    });
 
     ctx.clearRect(0, 0, W, H);
 
     // pronounced glow behind center circle
     const cGlow = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * 1.2);
-    cGlow.addColorStop(0,    'rgba(55,138,221,0.60)');
-    cGlow.addColorStop(0.35, 'rgba(55,138,221,0.35)');
-    cGlow.addColorStop(0.70, 'rgba(55,138,221,0.12)');
-    cGlow.addColorStop(1,    'transparent');
-    ctx.beginPath(); ctx.arc(cx, cy, R * 1.2, 0, Math.PI * 2);
-    ctx.fillStyle = cGlow; ctx.fill();
+    cGlow.addColorStop(0, "rgba(55,138,221,0.60)");
+    cGlow.addColorStop(0.35, "rgba(55,138,221,0.35)");
+    cGlow.addColorStop(0.7, "rgba(55,138,221,0.12)");
+    cGlow.addColorStop(1, "transparent");
+    ctx.beginPath();
+    ctx.arc(cx, cy, R * 1.2, 0, Math.PI * 2);
+    ctx.fillStyle = cGlow;
+    ctx.fill();
 
     // large outer circle
-    ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2);
-    ctx.strokeStyle = 'rgba(55,138,221,0.28)';
-    ctx.lineWidth   = 1.5; ctx.stroke();
-
-
+    ctx.beginPath();
+    ctx.arc(cx, cy, R, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(55,138,221,0.28)";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
 
     // compute screen positions
     const pts = orbits.map((o, i) => {
-      const lx    = Math.cos(o.angle) * o.rx;
-      const ly    = Math.sin(o.angle) * o.ry;
-      const px    = cx + lx * Math.cos(o.tilt) - ly * Math.sin(o.tilt);
-      const py    = cy + lx * Math.sin(o.tilt) + ly * Math.cos(o.tilt);
+      const lx = Math.cos(o.angle) * o.rx;
+      const ly = Math.sin(o.angle) * o.ry;
+      const px = cx + lx * Math.cos(o.tilt) - ly * Math.sin(o.tilt);
+      const py = cy + lx * Math.sin(o.tilt) + ly * Math.cos(o.tilt);
       const depth = (Math.sin(o.angle) * Math.cos(o.tilt) + 1) / 2;
       return { px, py, depth, angle: o.angle, i };
     });
 
     // paint back-to-front
-    pts.sort((a, b) => a.depth - b.depth).forEach(({ px, py, depth, angle, i }) => {
-      const isActive = i === activeIdx;
-      const svc = services[i];
+    pts
+      .sort((a, b) => a.depth - b.depth)
+      .forEach(({ px, py, depth, angle, i }) => {
+        const isActive = i === activeIdx;
+        const svc = services[i];
 
-      // active glow halos
-      if (isActive) {
-        ctx.beginPath(); ctx.arc(px, py, 16, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(55,138,221,0.12)'; ctx.fill();
-        ctx.beginPath(); ctx.arc(px, py, 10, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(55,138,221,0.24)'; ctx.fill();
-      }
+        // active glow halos
+        if (isActive) {
+          ctx.beginPath();
+          ctx.arc(px, py, 16, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(55,138,221,0.12)";
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(px, py, 10, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(55,138,221,0.24)";
+          ctx.fill();
+        }
 
-      // dot
-      const dotR = isActive ? Math.min(7, R * 0.04) : Math.min(3 + depth * 2.5, R * 0.03);
-      ctx.beginPath(); ctx.arc(px, py, dotR, 0, Math.PI * 2);
-      if (isActive) {
-        ctx.fillStyle   = '#378ADD';
-        ctx.shadowColor = 'rgba(55,138,221,1)';
-        ctx.shadowBlur  = 20;
-      } else {
-        ctx.fillStyle  = `rgba(133,183,235,${0.3 + depth * 0.55})`;
+        // dot
+        const dotR = isActive
+          ? Math.min(7, R * 0.04)
+          : Math.min(3 + depth * 2.5, R * 0.03);
+        ctx.beginPath();
+        ctx.arc(px, py, dotR, 0, Math.PI * 2);
+        if (isActive) {
+          ctx.fillStyle = "#378ADD";
+          ctx.shadowColor = "rgba(55,138,221,1)";
+          ctx.shadowBlur = 20;
+        } else {
+          ctx.fillStyle = `rgba(133,183,235,${0.3 + depth * 0.55})`;
+          ctx.shadowBlur = 0;
+        }
+        ctx.fill();
         ctx.shadowBlur = 0;
-      }
-      ctx.fill();
-      ctx.shadowBlur = 0;
 
-      // label
-      const label    = svc.title;
-      const fontSize = isActive ? 14 : 10 + depth * 2;
-      ctx.font       = `${isActive ? 700 : 400} ${fontSize}px 'Syne', sans-serif`;
+        // label
+        const label = svc.title;
+        const fontSize = isActive ? 14 : 10 + depth * 2;
+        ctx.font = `${isActive ? 700 : 400} ${fontSize}px 'Syne', sans-serif`;
 
-      // offset label to the side of the dot
-      const dx = px - cx;
-      const maxX = W - ctx.measureText(label).width - 16;
-      const minX = 8;
-      const idealX = dx >= 0 ? px + dotR + 8 : px - ctx.measureText(label).width - dotR - 8;
-      const lx2 = Math.max(minX, Math.min(idealX, maxX));
-      const ly2 = py + fontSize * 0.36;
+        // offset label to the side of the dot
+        const dx = px - cx;
+        const maxX = W - ctx.measureText(label).width - 16;
+        const minX = 8;
+        const idealX =
+          dx >= 0
+            ? px + dotR + 8
+            : px - ctx.measureText(label).width - dotR - 8;
+        const lx2 = Math.max(minX, Math.min(idealX, maxX));
+        const ly2 = py + fontSize * 0.36;
 
-
-      ctx.textAlign = 'left';
-      if (isActive) {
-        ctx.font = `700 ${fontSize}px 'Syne', sans-serif`;
-        ctx.fillStyle = '#fff';
-        ctx.shadowColor = 'rgba(55,138,221,0.8)';
-        ctx.shadowBlur = 10;
-        ctx.fillText(label, lx2, ly2);
-        ctx.shadowBlur = 0;
-      } else {
-        ctx.fillStyle = `rgba(181,212,244,${0.3 + depth * 0.5})`;
-        ctx.fillText(label, lx2, ly2);
-      }
-    });
+        ctx.textAlign = "left";
+        if (isActive) {
+          ctx.font = `700 ${fontSize}px 'Syne', sans-serif`;
+          ctx.fillStyle = "#fff";
+          ctx.shadowColor = "rgba(55,138,221,0.8)";
+          ctx.shadowBlur = 10;
+          ctx.fillText(label, lx2, ly2);
+          ctx.shadowBlur = 0;
+        } else {
+          ctx.fillStyle = `rgba(181,212,244,${0.3 + depth * 0.5})`;
+          ctx.fillText(label, lx2, ly2);
+        }
+      });
 
     requestAnimationFrame(draw);
   }
@@ -183,54 +243,57 @@ function animateCount(el, target, suffix, duration) {
 }
 
 // scroll reveal — re-triggers every time element enters viewport
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-    } else {
-      e.target.classList.remove('visible');
-    }
-  });
-}, { threshold: 0.12 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add("visible");
+      } else {
+        e.target.classList.remove("visible");
+      }
+    });
+  },
+  { threshold: 0.12 },
+);
+document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
 
 // ── NAV SCROLL EFFECT ──
-window.addEventListener('scroll', () => {
-  const nav = document.getElementById('navbar');
+window.addEventListener("scroll", () => {
+  const nav = document.getElementById("navbar");
   if (nav) {
-    nav.style.background = window.scrollY > 40
-      ? 'rgba(2,27,51,0.97)'
-      : 'rgba(2,27,51,0.85)';
+    nav.style.background =
+      window.scrollY > 40 ? "rgba(2,27,51,0.97)" : "rgba(2,27,51,0.85)";
   }
 });
 
 // Rising line with animated nodes
-(function() {
-  const canvas = document.getElementById('ekgCanvas');
+(function () {
+  const canvas = document.getElementById("ekgCanvas");
   if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const W = canvas.width, H = canvas.height;
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width,
+    H = canvas.height;
 
   const descs = [
-    'We talk through your goals, pain points, and what success looks like for your business.',
-    'I design and develop your platform with clean, efficient code built around your workflow.',
-    'We launch your platform, I provide support, and your business starts running smarter.',
+    "We talk through your goals, pain points, and what success looks like for your business.",
+    "I design and develop your platform with clean, efficient code built around your workflow.",
+    "We launch your platform, I provide support, and your business starts running smarter.",
   ];
 
   // Zigzag line — nodes sit exactly at the 3 peaks
   const linePoints = [
-    { xf: 0.00, yf: 0.98 },
+    { xf: 0.0, yf: 0.98 },
     { xf: 0.07, yf: 0.82 },
-    { xf: 0.18, yf: 0.90 },
+    { xf: 0.18, yf: 0.9 },
     { xf: 0.28, yf: 0.58 }, // peak 1 — node 0 (Discover)
-    { xf: 0.38, yf: 0.80 },
+    { xf: 0.38, yf: 0.8 },
     { xf: 0.48, yf: 0.88 },
     { xf: 0.57, yf: 0.38 }, // peak 2 — node 1 (Build)
     { xf: 0.66, yf: 0.58 },
     { xf: 0.74, yf: 0.68 },
     { xf: 0.86, yf: 0.12 }, // peak 3 — node 2 (Deliver)
     { xf: 0.93, yf: 0.16 },
-    { xf: 1.00, yf: 0.06 },
+    { xf: 1.0, yf: 0.06 },
   ];
 
   // nodes sit exactly at the peaks
@@ -241,22 +304,25 @@ window.addEventListener('scroll', () => {
   ];
 
   let activeStep = 0;
-  let lastStep   = performance.now();
-  const STEP_MS  = 6000;
+  let lastStep = performance.now();
+  const STEP_MS = 6000;
   // pulse animation per node
-  const pulseR   = nodes.map(() => 0);
-  const pulseA   = nodes.map(() => 0);
+  const pulseR = nodes.map(() => 0);
+  const pulseA = nodes.map(() => 0);
 
   function activate(i) {
     activeStep = i;
     for (let s = 0; s < 3; s++) {
-      const el = document.getElementById('ekgstep-' + s);
-      if (el) el.classList.toggle('active', s === i);
+      const el = document.getElementById("ekgstep-" + s);
+      if (el) el.classList.toggle("active", s === i);
     }
-    const desc = document.getElementById('ekgDesc');
+    const desc = document.getElementById("ekgDesc");
     if (desc) {
-      desc.style.opacity = '0';
-      setTimeout(() => { desc.textContent = descs[i]; desc.style.opacity = '1'; }, 200);
+      desc.style.opacity = "0";
+      setTimeout(() => {
+        desc.textContent = descs[i];
+        desc.style.opacity = "1";
+      }, 200);
     }
     // trigger pulse on active node
     pulseR[i] = 0;
@@ -273,8 +339,8 @@ window.addEventListener('scroll', () => {
 
     ctx.clearRect(0, 0, W, H);
 
-    const pts = nodes.map(n => ({ x: n.xf * W, y: n.yf * H, step: n.step }));
-    const lpts = linePoints.map(p => ({ x: p.xf * W, y: p.yf * H }));
+    const pts = nodes.map((n) => ({ x: n.xf * W, y: n.yf * H, step: n.step }));
+    const lpts = linePoints.map((p) => ({ x: p.xf * W, y: p.yf * H }));
 
     // sharp angular line — straight segments like a stock chart
     ctx.beginPath();
@@ -282,26 +348,35 @@ window.addEventListener('scroll', () => {
     for (let i = 1; i < lpts.length; i++) {
       ctx.lineTo(lpts[i].x, lpts[i].y);
     }
-    ctx.strokeStyle = '#378ADD';
-    ctx.lineWidth   = 3;
-    ctx.lineJoin    = 'round';
-    ctx.shadowColor = 'rgba(55,138,221,0.6)';
-    ctx.shadowBlur  = 10;
+    ctx.strokeStyle = "#378ADD";
+    ctx.lineWidth = 3;
+    ctx.lineJoin = "round";
+    ctx.shadowColor = "rgba(55,138,221,0.6)";
+    ctx.shadowBlur = 10;
     ctx.stroke();
-    ctx.shadowBlur  = 0;
+    ctx.shadowBlur = 0;
 
     // arrow tip at the end
-    const last  = lpts[lpts.length - 1];
-    const prev  = lpts[lpts.length - 2];
+    const last = lpts[lpts.length - 1];
+    const prev = lpts[lpts.length - 2];
     const angle = Math.atan2(last.y - prev.y, last.x - prev.x);
     ctx.beginPath();
     ctx.moveTo(last.x, last.y);
-    ctx.lineTo(last.x - 11 * Math.cos(angle - 0.4), last.y - 11 * Math.sin(angle - 0.4));
+    ctx.lineTo(
+      last.x - 11 * Math.cos(angle - 0.4),
+      last.y - 11 * Math.sin(angle - 0.4),
+    );
     ctx.moveTo(last.x, last.y);
-    ctx.lineTo(last.x - 11 * Math.cos(angle + 0.4), last.y - 11 * Math.sin(angle + 0.4));
-    ctx.strokeStyle = '#378ADD'; ctx.lineWidth = 2.5;
-    ctx.shadowColor = 'rgba(55,138,221,0.6)'; ctx.shadowBlur = 8;
-    ctx.stroke(); ctx.shadowBlur = 0;
+    ctx.lineTo(
+      last.x - 11 * Math.cos(angle + 0.4),
+      last.y - 11 * Math.sin(angle + 0.4),
+    );
+    ctx.strokeStyle = "#378ADD";
+    ctx.lineWidth = 2.5;
+    ctx.shadowColor = "rgba(55,138,221,0.6)";
+    ctx.shadowBlur = 8;
+    ctx.stroke();
+    ctx.shadowBlur = 0;
 
     // draw nodes
     pts.forEach((p, i) => {
@@ -309,34 +384,52 @@ window.addEventListener('scroll', () => {
 
       // animate pulse ring
       if (pulseA[i] > 0) {
-        const pColor = i === 2 ? '255,216,77' : '55,138,221';
+        const pColor = i === 2 ? "255,216,77" : "55,138,221";
         ctx.beginPath();
         ctx.arc(p.x, p.y, 7 + pulseR[i], 0, Math.PI * 2);
         ctx.strokeStyle = `rgba(${pColor},${pulseA[i] * 0.6})`;
-        ctx.lineWidth   = 1.5; ctx.stroke();
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
         pulseR[i] += 0.5;
         pulseA[i] -= 0.018;
-        if (pulseA[i] < 0) { pulseA[i] = 0; pulseR[i] = 0; }
+        if (pulseA[i] < 0) {
+          pulseA[i] = 0;
+          pulseR[i] = 0;
+        }
       }
 
       // outer ring for active
       if (isActive) {
-        const rColor = i === 2 ? 'rgba(255,216,77,0.35)' : 'rgba(55,138,221,0.35)';
-        ctx.beginPath(); ctx.arc(p.x, p.y, 10, 0, Math.PI * 2);
+        const rColor =
+          i === 2 ? "rgba(255,216,77,0.35)" : "rgba(55,138,221,0.35)";
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 10, 0, Math.PI * 2);
         ctx.strokeStyle = rColor;
-        ctx.lineWidth = 1; ctx.stroke();
+        ctx.lineWidth = 1;
+        ctx.stroke();
       }
 
       // filled circle
-      ctx.beginPath(); ctx.arc(p.x, p.y, isActive ? 6 : 5, 0, Math.PI * 2);
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, isActive ? 6 : 5, 0, Math.PI * 2);
       const isDeliver = i === 2;
-      const nodeColor = isDeliver ? '#FFD84D' : '#378ADD';
-      const glowColor = isDeliver ? 'rgba(255,216,77,0.8)' : 'rgba(55,138,221,1)';
-      ctx.fillStyle   = isActive ? '#fff' : 'rgba(55,138,221,0.0)';
-      ctx.strokeStyle = isActive ? nodeColor : (isDeliver ? 'rgba(255,216,77,0.7)' : 'rgba(133,183,235,0.7)');
-      ctx.lineWidth   = isActive ? 2.5 : 1.5;
-      if (isActive) { ctx.shadowColor = glowColor; ctx.shadowBlur = 18; }
-      ctx.fill(); ctx.stroke();
+      const nodeColor = isDeliver ? "#FFD84D" : "#378ADD";
+      const glowColor = isDeliver
+        ? "rgba(255,216,77,0.8)"
+        : "rgba(55,138,221,1)";
+      ctx.fillStyle = isActive ? "#fff" : "rgba(55,138,221,0.0)";
+      ctx.strokeStyle = isActive
+        ? nodeColor
+        : isDeliver
+          ? "rgba(255,216,77,0.7)"
+          : "rgba(133,183,235,0.7)";
+      ctx.lineWidth = isActive ? 2.5 : 1.5;
+      if (isActive) {
+        ctx.shadowColor = glowColor;
+        ctx.shadowBlur = 18;
+      }
+      ctx.fill();
+      ctx.stroke();
       ctx.shadowBlur = 0;
     });
 
@@ -350,8 +443,8 @@ window.addEventListener('scroll', () => {
 function handleSubmit(e) {
   e.preventDefault();
 
-  const btn = e.target.querySelector('.form-submit');
-  btn.textContent = 'Sending...';
+  const btn = e.target.querySelector(".form-submit");
+  btn.textContent = "Sending...";
   btn.disabled = true;
   const form = e.target;
   const data = {
@@ -362,155 +455,63 @@ function handleSubmit(e) {
     message: form.querySelector('[name="message"]').value,
   };
 
-  fetch('/contact', {
-    method: 'POST',
+  fetch("/contact", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Form submission failed');
-    }
-    return response.json();
-  })
-  .then(() => {
-    form.style.display = 'none';
-    const s = document.getElementById('formSuccess');
-    s.style.display = 'flex';
-  })
-  .catch(() => {
-    btn.innerHTML = 'Let’s talk solutions';
-    btn.disabled = false;
-    alert('Something went wrong. Please try again.');
-  });
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Form submission failed");
+      }
+      return response.json();
+    })
+    .then(() => {
+      form.style.display = "none";
+      const s = document.getElementById("formSuccess");
+      s.style.display = "flex";
+    })
+    .catch(() => {
+      btn.innerHTML = "Let’s talk solutions";
+      btn.disabled = false;
+      alert("Something went wrong. Please try again.");
+    });
 }
 // ── LIGHTBOX ──
 function openLightbox(src) {
-  const lb = document.getElementById('lightbox');
-  const img = document.getElementById('lightbox-img');
+  const lb = document.getElementById("lightbox");
+  const img = document.getElementById("lightbox-img");
   img.src = src;
-  lb.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
+  lb.style.display = "flex";
+  document.body.style.overflow = "hidden";
 }
 
 function closeLightbox() {
-  document.getElementById('lightbox').style.display = 'none';
-  document.body.style.overflow = '';
+  document.getElementById("lightbox").style.display = "none";
+  document.body.style.overflow = "";
 }
 
 // close on background click
-const lightbox = document.getElementById('lightbox');
+const lightbox = document.getElementById("lightbox");
 if (lightbox) {
-  lightbox.addEventListener('click', function(e) {
+  lightbox.addEventListener("click", function (e) {
     if (e.target === this) closeLightbox();
   });
 }
 
-// ── PRICING SHUFFLE ──
-(function() {
-  const cards = [
-    document.getElementById('priceCard1'),
-    document.getElementById('priceCard2'),
-    document.getElementById('priceCard3')
-  ];
-  if (!cards[0]) return;
-
-  let activeCard = 0;
-  let expanded = false;
-  let expandTimer = null;
-  let shuffleTimer = null;
-
-  const positions = [
-    { zIndex: 3, transform: 'translateX(0px) rotate(0deg) scale(1)',     opacity: 1    },
-    { zIndex: 2, transform: 'translateX(20px) rotate(4deg) scale(0.96)', opacity: 0.85 },
-    { zIndex: 1, transform: 'translateX(40px) rotate(8deg) scale(0.92)', opacity: 0.7  },
-  ];
-
-  function applyPositions(startIndex) {
-    cards.forEach((card, i) => {
-      const posIndex = (i - startIndex + 3) % 3;
-      const pos = positions[posIndex];
-      card.style.zIndex    = pos.zIndex;
-      card.style.transform = pos.transform;
-      card.style.opacity   = pos.opacity;
-      card.style.width     = '100%';
-      card.classList.toggle('active', posIndex === 0);
-    });
-    activeCard = startIndex;
-    expanded = false;
-  }
-
-  function expandCard(card) {
-    if (expanded) return;
-    expanded = true;
-    clearInterval(shuffleTimer);
-    clearTimeout(expandTimer);
-
-    card.style.transform = 'translateX(0px) rotate(0deg) scale(1.05)';
-    card.style.zIndex = 10;
-    card.style.opacity = 1;
-    card.style.boxShadow = '0 0 60px rgba(55,138,221,0.4)';
-
-    expandTimer = setTimeout(() => {
-      card.style.boxShadow = '';
-      applyPositions(activeCard);
-      startShuffle();
-    }, 10000);
-  }
-
-  function startShuffle() {
-    clearInterval(shuffleTimer);
-    shuffleTimer = setInterval(() => {
-      if (!expanded) applyPositions((activeCard + 1) % 3);
-    }, 4000);
-  }
-
-  // click to expand
-  cards.forEach(card => {
-    card.addEventListener('click', () => {
-      expandCard(card);
-    });
-  });
-
-  // swipe to advance — mobile only
-  let touchStartX = 0;
-  const stack = document.getElementById('pricingStack');
-  if (stack) {
-    stack.addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-      clearInterval(shuffleTimer);
-    }, { passive: true });
-
-    stack.addEventListener('touchend', (e) => {
-      const diff = touchStartX - e.changedTouches[0].screenX;
-      if (Math.abs(diff) > 50) {
-        expanded = false;
-        if (diff > 0) {
-          applyPositions((activeCard + 1) % 3);
-        } else {
-          applyPositions((activeCard + 2) % 3);
-        }
-      }
-      setTimeout(startShuffle, 6000);
-    }, { passive: true });
-  }
-
-  applyPositions(0);
-  startShuffle();
-})();
 // ── HAMBURGER MENU ──
 function toggleMenu() {
-  const nav = document.getElementById('navLinks');
-  const burger = document.getElementById('hamburger');
-  nav.classList.toggle('open');
-  burger.classList.toggle('open');
+  const nav = document.getElementById("navLinks");
+  const burger = document.getElementById("hamburger");
+  nav.classList.toggle("open");
+  burger.classList.toggle("open");
 }
 
-document.querySelectorAll('#navLinks a').forEach(link => {
-  link.addEventListener('click', () => {
-    document.getElementById('navLinks').classList.remove('open');
-    document.getElementById('hamburger').classList.remove('open');
+document.querySelectorAll("#navLinks a").forEach((link) => {
+  link.addEventListener("click", () => {
+    document.getElementById("navLinks").classList.remove("open");
+    document.getElementById("hamburger").classList.remove("open");
   });
 });
