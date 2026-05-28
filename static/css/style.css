@@ -1188,6 +1188,7 @@ footer {
   align-items: center;
   justify-content: center;
   padding: 1.75rem;
+  background: rgba(0, 0, 0, 0.92);
   backdrop-filter: blur(6px);
   transition: all 0.4s ease;
   z-index: 2;

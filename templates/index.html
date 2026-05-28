@@ -741,6 +741,7 @@
     <!-- LIGHTBOX -->
     <div
       id="lightbox"
+      onclick="closeLightbox()"
       style="
         display: none;
         position: fixed;
@@ -755,6 +756,7 @@
     >
       <img
         id="lightbox-img"
+        onclick="event.stopPropagation()"
         src=""
         alt=""
         style="
