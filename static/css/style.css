@@ -454,6 +454,33 @@ nav {
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 20px;
 }
+.featured-project {
+  grid-column: span 2;
+}
+
+.featured-project .proj-preview {
+  height: 300px;
+}
+
+.featured-project .proj-body {
+  padding: 1.75rem;
+  max-width: 85%;
+}
+
+.featured-project h3 {
+  font-size: 28px;
+  margin-bottom: 1rem;
+}
+
+.featured-project p {
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.proj-detail {
+  margin-top: 1rem;
+  color: var(--blue-pale);
+}
 .proj-card {
   background: var(--white);
   border-radius: 14px;
@@ -469,12 +496,70 @@ nav {
   opacity: 1;
 }
 .proj-preview {
-  height: 140px;
+  height: 300px;
   position: relative;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 1rem;
+}
+.browser-frame {
+  display: block;
+  width: 100%;
+  height: calc(100% - 38px);
+  object-fit: cover;
+  object-position: center top;
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+
+  background: #0b1f38;
+
+  border-radius: 18px;
+  overflow: hidden;
+
+  border: 1px solid rgba(55,138,221,0.18);
+
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.35),
+    0 0 30px rgba(55,138,221,0.08);
+}
+.featured-project:hover .browser-frame {
+  transform: translateY(-4px) scale(1.01);
+
+  box-shadow:
+    0 30px 70px rgba(0,0,0,0.4),
+    0 0 45px rgba(55,138,221,0.16);
+}
+
+.browser-top {
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 0 14px;
+
+  background: rgba(255,255,255,0.03);
+
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.browser-top span {
+  width: 10px;
+  height: 10px;
+
+  border-radius: 50%;
+
+  background: rgba(255,255,255,0.18);
+}
+
+.browser-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 .proj-preview.blue-bg {
   background: var(--navy-mid);
@@ -1369,6 +1454,18 @@ footer {
 
   .projects-grid {
     grid-template-columns: 1fr;
+  }
+
+  .featured-project {
+    grid-column: span 1;
+  }
+
+  .featured-project .proj-preview {
+    height: 180px;
+  }
+
+  .featured-project h3 {
+    font-size: 22px;
   }
 
   .contact-inner {
