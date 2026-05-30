@@ -90,13 +90,14 @@
       >
         Let's work together →
       </button>
-      <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation menu">
         <span></span>
         <span></span>
         <span></span>
       </button>
     </nav>
 
+    <main>
     <!-- HERO -->
     <section id="hero">
       <div class="hero-grid-bg"></div>
@@ -666,8 +667,8 @@
               </div>
             </div>
             <div class="form-group">
-              <label>What do you need?</label>
-              <select name="service">
+              <label for="service">What do you need?</label>
+              <select name="service" id="service">
                 <option value="">Select a service...</option>
                 <option>Custom web application</option>
                 <option>Dashboard or admin portal</option>
@@ -753,6 +754,7 @@
         © 2026 MarshaK Designs · Business Operations & Digital Platform
         Solutions
       </div>
+    </main>
     </footer>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
