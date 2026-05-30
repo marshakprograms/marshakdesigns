@@ -42,6 +42,71 @@
 
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
   <link rel="icon" href="data:," />
+
+  <!-- Schema Markup -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "MarshaK Designs",
+    "description": "Custom web developer in Durham, NC specializing in business platforms, workflow automation, and client portals for small businesses.",
+    "url": "https://www.marshakdesigns.com",
+    "email": "marshakdesigns@gmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Durham",
+      "addressRegion": "NC",
+      "addressCountry": "US"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "35.9940",
+      "longitude": "-78.8986"
+    },
+    "founder": {
+      "@type": "Person",
+      "name": "Marsha Shearin",
+      "jobTitle": "Web Developer & Business Platform Specialist"
+    },
+    "serviceArea": {
+      "@type": "Place",
+      "name": "Durham, NC and Remote"
+    },
+    "priceRange": "$$",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Web Development Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Business Website",
+            "description": "Custom modern website with SEO, mobile responsive design, and lead capture forms.",
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": "800"
+            }
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Business Platform",
+            "description": "Custom workflow tools, client portals, admin dashboards, and operational systems.",
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": "2000"
+            }
+          }
+        }
+      ]
+    }
+  }
+  </script>
 </head>  
 <body>
     <!-- NAV -->
