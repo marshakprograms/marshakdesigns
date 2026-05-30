@@ -1,70 +1,49 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-071FTWCK4H"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-071FTWCK4H"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-071FTWCK4H');
+  </script>
 
-      gtag('config', 'G-071FTWCK4H');
-    </script>  
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-      Marsha K Designs | Business Operations & Digital Platform Solutions
-    </title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
-      rel="stylesheet"
-    />
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- SEO Meta Tags -->
-    <meta
-      name="description"
-      content="MarshaK Designs builds custom web platforms, dashboards, and operations tools for small businesses and startups in Durham, NC. Starting at $800."
-    />
-    <meta
-      name="keywords"
-      content="custom web development, small business websites, Flask developer, Durham NC, operations platform, startup development"
-    />
-    <meta name="author" content="MarshaK Designs" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marsha K Designs | Business Operations & Digital Platform Solutions</title>
 
-    <!-- Open Graph Tags -->
-    <meta
-      property="og:title"
-      content="MarshaK Designs — Business Operations & Digital Platform Solutions"
-    />
-    <meta
-      property="og:description"
-      content="Custom-built digital platforms for small businesses and startups. Smart systems. Stronger businesses."
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.marshakdesigns.com" />
-    <meta
-      property="og:image"
-      content="https://www.marshakdesigns.com/static/images/ogImage.png"
-    />
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"></noscript>
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="MarshaK Designs — Business Operations & Digital Platform Solutions"
-    />
-    <meta
-      name="twitter:description"
-      content="Custom-built digital platforms for small businesses and startups."
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}"
-    />
-    <link rel="icon" href="data:," />
-  </head>
-  <body>
+  <!-- Icons -->
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="MarshaK Designs builds custom web platforms, dashboards, and operations tools for small businesses and startups in Durham, NC. Starting at $800." />
+  <meta name="keywords" content="custom web development, small business websites, Flask developer, Durham NC, operations platform, startup development" />
+  <meta name="author" content="MarshaK Designs" />
+
+  <!-- Open Graph Tags -->
+  <meta property="og:title" content="MarshaK Designs — Business Operations & Digital Platform Solutions" />
+  <meta property="og:description" content="Custom-built digital platforms for small businesses and startups. Smart systems. Stronger businesses." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.marshakdesigns.com" />
+  <meta property="og:image" content="https://www.marshakdesigns.com/static/images/ogImage.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="MarshaK Designs — Business Operations & Digital Platform Solutions" />
+  <meta name="twitter:description" content="Custom-built digital platforms for small businesses and startups." />
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="icon" href="data:," />
+</head>  
+<body>
     <!-- NAV -->
     <nav id="navbar">
       <div class="nav-logo">
