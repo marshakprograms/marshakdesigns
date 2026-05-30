@@ -5,7 +5,8 @@ images = [
     'static/images/Delegate.png',
     'static/images/EH.png',
     'static/images/Lux.png',
-    'static/images/MarshaK.png'
+    'static/images/MarshaK.png',
+    'static/images/ogImage.png'
 ]
 
 for path in images:
@@ -15,3 +16,5 @@ for path in images:
     orig = os.path.getsize(path)//1024
     new = os.path.getsize(webp_path)//1024
     print(f'{path}: {orig}KB -> {new}KB')
+    
+    
